@@ -1,16 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import Book from './Book'
 
-export class BookShelf extends Component {
-    state = {
-        shelfName: this.props.shelfName,
-        books: this.props.books,
-        
-    }
-    render() {
-        const { shelfName, books } = this.state;
-     
-        return (
+
+export default function BookShelf(props) {
+    const { books } = props
+    const { shelfName } = props
+    const {UpdateBooks}=props
+     return (
             <Fragment>
                   
                 <div className="bookshelf">
@@ -19,7 +15,7 @@ export class BookShelf extends Component {
                     <div className="bookshelf-books">
                         <ol className="books-grid">
                         
-                            {books.map(book => <Book  key={book.id} book={book } UpdateBooks={this.props.UpdateBooks} />)
+                            {books.map(book => <Book  key={book.id} book={book } UpdateBooks={UpdateBooks} />)
                             
                             }
                            
@@ -28,7 +24,5 @@ export class BookShelf extends Component {
                     </div>
             </Fragment>
         )
-    }
 }
 
-export default BookShelf

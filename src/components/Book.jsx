@@ -1,32 +1,24 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import * as BooksAPI from '../BooksAPI'
 
-export class Book extends Component {
-    state = {
-        book:this.props.book,
-        selectBook: '',
-        selectedShelf: '',
-        UpdateBooks: this.props.UpdateBooks 
-    }
-    handelSelectChange = (e) => {
+
+export default function Book(props) {
+    const { book } = props;
+    const { UpdateBooks } = props;
+    let image = book.imageLinks
+        ? book.imageLinks.thumbnail
+        : ` https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtjzyPH2LrPz1aWXdwjZYGhid7Z7xCUl-0IQ&usqp=CAU`;
+    
+    
+    function handelSelectChange (e) {
         let selectedShelf = e.currentTarget.value;
-        this.setState({selectedShelf})
-        BooksAPI.get(this.state.book.id).then(book => {
+        BooksAPI.get(book.id).then(book => {
             let selectBook = book;
-            this.setState({selectBook})
-            this.state.UpdateBooks(selectBook,selectedShelf);
+           UpdateBooks(selectBook,selectedShelf);
         })
         
     }
-  
-    
-    render() {
-        
-        const { book } = this.props;
-         let image = book.imageLinks
-        ? book.imageLinks.thumbnail
-        :` https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtjzyPH2LrPz1aWXdwjZYGhid7Z7xCUl-0IQ&usqp=CAU`;
-        return (
+   return (
             <Fragment>
                
                 
@@ -36,7 +28,7 @@ export class Book extends Component {
                             <div className="book-top">
                                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${image})`}}></div>
                                 <div className="book-shelf-changer">
-                                <select value={book.shelf }onChange={this.handelSelectChange}>
+                                <select value={book.shelf }onChange={handelSelectChange}>
                                     <option disabled>Move to...</option>
                                     <option value="currentlyReading">Currently Reading</option>
                                     <option value="wantToRead">Want to Read</option>
@@ -54,7 +46,5 @@ export class Book extends Component {
             
             </Fragment>
         )
-    }
 }
 
-export default Book

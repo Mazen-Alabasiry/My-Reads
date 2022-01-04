@@ -4,11 +4,14 @@ import * as BooksAPI from '../BooksAPI'
 import Book from './Book';
 
 
+
 export class Search extends Component {
     state = {
         searchedlist: [],
         query: '',
-        UpdateBooks:this.props.UpdateBooks,
+        UpdateBooks: this.props.UpdateBooks,
+        error:''
+        
     }
     handleChange = (e) => {
         let query = e.currentTarget.value;
@@ -25,7 +28,7 @@ export class Search extends Component {
           if (!books || books.error) {
           this.setState({
             searchedlist: [],
-            error: "No books were found, please change your search term"
+            error: "No books were found :("
           });
           return;
         }
@@ -57,7 +60,7 @@ export class Search extends Component {
                     <div className="search-books-results">
                        
                         <ol className="books-grid">
-                            {
+                            {   this.state.searchedlist.length===0?<span style={{color:'red',fontSize:'18pt',fontWeight:'bold'}}>{ this.state.error}</span>:
                                 this.state.searchedlist.map(book => <Book key={book.id} book={book} UpdateBooks={this.state.UpdateBooks} />)
                             }
                            

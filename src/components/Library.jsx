@@ -1,21 +1,12 @@
-import React, { Component, Fragment } from 'react'
+import React, {  Fragment } from 'react'
 import ListBooks from './ListBooks'
 import { Link } from "react-router-dom";
-export class Library extends Component {
-  constructor(props) {
-    super(props);
-    this.state ={
-      books: this.props.books,
-      UpdateBooks:this.props.UpdateBooks,
-     
-    }
-  }
- 
-  render() {
-    const { books } = this.state;
 
-   
-        return (
+
+export default function Library(props) {
+  const { books } = props;
+  const { UpdateBooks } = props;
+ return (
           
         <Fragment>
             
@@ -24,7 +15,7 @@ export class Library extends Component {
                 <i className="fas fa-book-reader" style={{fontSize:' 20pt',color: 'white',}}></i>
                 <h1>MyReads</h1>
             </div>
-              <ListBooks books={books }  UpdateBooks={this.state.UpdateBooks}/>
+              <ListBooks books={books }  UpdateBooks={UpdateBooks}/>
             <div className="open-search">
                 <Link to="/search">Add a book</Link>
             </div>
@@ -32,7 +23,5 @@ export class Library extends Component {
         
          </Fragment>
         )
-    }
 }
 
-export default Library
