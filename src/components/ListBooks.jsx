@@ -4,7 +4,8 @@ import BookShelf from './BookShelf'
 
 export default function ListBooks(props) {
     const { books } = props;
-    const {UpdateBooks}=props
+    const { UpdateBooks } = props
+     const {openInfo}=props
  
         let currentlyReading = books.filter(b => b.shelf === 'currentlyReading')
         let wantToRead = books.filter(b => b.shelf === 'wantToRead')
@@ -17,9 +18,9 @@ export default function ListBooks(props) {
                       
                     <div>
                        
-                        <BookShelf shelfName={'currently Reading'} books={currentlyReading}  UpdateBooks={UpdateBooks} />
-                        <BookShelf shelfName={`Want to Read`} books={wantToRead} UpdateBooks={UpdateBooks}/>
-                        <BookShelf shelfName={`Read`} books={read} UpdateBooks={UpdateBooks} />
+                      <BookShelf shelfName={'currently Reading'} books={currentlyReading} UpdateBooks={UpdateBooks} openInfo={openInfo }/>
+                        <BookShelf shelfName={`Want to Read`} books={wantToRead} UpdateBooks={UpdateBooks} openInfo={openInfo }/>
+                        <BookShelf shelfName={`Read`} books={read} UpdateBooks={UpdateBooks} openInfo={openInfo }/>
                        
                     
                 </div>

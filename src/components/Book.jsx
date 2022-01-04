@@ -1,10 +1,15 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
+
+import { useNavigate } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI'
+
 
 
 export default function Book(props) {
     const { book } = props;
     const { UpdateBooks } = props;
+    const { openInfo } = props;
+    let navigate = useNavigate();
     let image = book.imageLinks
         ? book.imageLinks.thumbnail
         : ` https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRtjzyPH2LrPz1aWXdwjZYGhid7Z7xCUl-0IQ&usqp=CAU`;
@@ -18,6 +23,17 @@ export default function Book(props) {
         })
         
     }
+    function NavidatFunction(bookId) {
+  
+        BooksAPI.get(bookId).then(book => {
+            let selectBook = book;
+            openInfo(selectBook)
+            navigate('/bookinfo')
+
+        })
+        
+    }
+ 
    return (
             <Fragment>
                
@@ -26,7 +42,7 @@ export default function Book(props) {
                     
                             <div className="book">
                             <div className="book-top">
-                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${image})`}}></div>
+                                <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${image})`,cursor:'pointer'}} onClick={()=>NavidatFunction(book.id)}></div>
                                 <div className="book-shelf-changer">
                                 <select value={book.shelf }onChange={handelSelectChange}>
                                     <option disabled>Move to...</option>
