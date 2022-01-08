@@ -7,6 +7,7 @@ import Book from './Book';
 
 export class Search extends Component {
     state = {
+        libraryBooks:this.props.books,
         searchedlist: [],
         query: '',
         UpdateBooks: this.props.UpdateBooks,
@@ -21,7 +22,9 @@ export class Search extends Component {
     
     Searchlist = (query) => {
        if (!query) {
-      this.setState({ searchedlist: [] });
+           this.setState({
+               searchedlist: [],
+                error:''});
       return;
     }
         BooksAPI.search(query).then(books => {
@@ -31,14 +34,19 @@ export class Search extends Component {
             error: "No books were found :("
           });
           return;
-        }
+          }
+            books = books.map(book => {
+                let Book = this.state.libraryBooks.find(b => b.id === book.id);
+                 book.shelf = Book ? Book.shelf : "none";
+                return book;
+           })
          this.setState({ searchedlist: books })
        //  console.log(this.state.searchedlist)
     }).catch(err => {
         this.setState({
           searchedlist: [],
           error:
-            "There was an error searching for books, please check your connection"
+            `${err}`
         });
       });
   }
@@ -62,6 +70,7 @@ export class Search extends Component {
                         <ol className="books-grid">
                             {   this.state.searchedlist.length===0?<span style={{color:'red',fontSize:'18pt',fontWeight:'bold'}}>{ this.state.error}</span>:
                                 this.state.searchedlist.map(book => <Book key={book.id} book={book} UpdateBooks={this.state.UpdateBooks} />)
+                                
                             }
                            
                         </ol>

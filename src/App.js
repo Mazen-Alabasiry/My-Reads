@@ -1,12 +1,12 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Library from './components/Library'
-import Search from './components/Search'
-import NotFoundpage from './components/NotFound'
+ import Library from './components/Library'
+ import Search from './components/Search'
+ import NotFoundpage from './components/NotFound'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import PageLodaing from './components/PageLodaing'
-import BookInfo from './components/BookInfo'
+ import PageLodaing from './components/PageLodaing'
+ import BookInfo from './components/BookInfo'
 
 
 class BooksApp extends React.Component {
@@ -16,11 +16,8 @@ class BooksApp extends React.Component {
      bookinfo: null,
   }
   async componentDidMount() {
-    BooksAPI.getAll().then((books) => {
+    let books=await BooksAPI.getAll()
       this.setState({ books })
-
-    })
-   
 
   }
    UpdateBooks = (book, shelf) => {
@@ -30,7 +27,8 @@ class BooksApp extends React.Component {
     }));
      BooksAPI.update(book, shelf);
 
-  };
+   };
+  
   openInfo = (book) => {
   this.setState(prevState => ({
       bookinfo: prevState.bookinfo=book
@@ -40,7 +38,7 @@ class BooksApp extends React.Component {
    
   render() {
     const { books} = this.state;
- 
+    
     return (
      
       <div className="app">
@@ -48,7 +46,7 @@ class BooksApp extends React.Component {
          
           <Route path='/'  element={<Navigate to='/library'/>}/>
           <Route path='/library' element={this.state.books ? <Library books={books} UpdateBooks={this.UpdateBooks} openInfo={ this.openInfo} />:<PageLodaing/>}/>
-          <Route path='/search' element={<Search UpdateBooks={this.UpdateBooks} />} /> 
+          <Route path='/search' element={<Search UpdateBooks={this.UpdateBooks} books={books} />} /> 
           <Route path='/notfound' element={<NotFoundpage />} />
           <Route path='/bookinfo' element={<BookInfo book={ this.state.bookinfo}/> }/>
           <Route path='*' element={<Navigate to='/notfound' />} /> 
