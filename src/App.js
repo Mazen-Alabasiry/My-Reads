@@ -1,12 +1,12 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import Library from './components/Library'
-import Search from './components/Search'
-import NotFoundpage from './components/NotFound'
+import Library from './components/Library.js'
+import Search from './components/Search.js'
+import NotFoundpage from './components/NotFound.js'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import PageLodaing from './components/PageLodaing'
-import BookInfo from './components/BookInfo'
+import PageLodaing from './components/PageLodaing.js'
+import BookInfo from './components/BookInfo.js'
 
 class BooksApp extends React.Component {
   
@@ -15,12 +15,9 @@ class BooksApp extends React.Component {
      bookinfo: null,
   }
   async componentDidMount() {
-    BooksAPI.getAll().then((books) => {
+   const books=await BooksAPI.getAll()
       this.setState({ books })
-
-    })
-   
-
+  
   }
    UpdateBooks = (book, shelf) => {
      book.shelf = shelf;
