@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { Link } from 'react-router-dom';
 import * as BooksAPI from '../BooksAPI'
 import Book from './Book';
-
+import { debounce } from "lodash";
 
 
 export class Search extends Component {
@@ -20,11 +20,12 @@ export class Search extends Component {
         this.Searchlist(query.trim());
     }
     
-    Searchlist = (query) => {
+    Searchlist = debounce((query) => {
        if (!query) {
            this.setState({
                searchedlist: [],
-                error:''});
+               error: ''
+           });
       return;
     }
         BooksAPI.search(query).then(books => {
@@ -35,7 +36,7 @@ export class Search extends Component {
           });
           return;
           }
-            books = books.map(book => {
+              books = books.map(book => {
                 let Book = this.state.libraryBooks.find(b => b.id === book.id);
                  book.shelf = Book ? Book.shelf : "none";
                 return book;
@@ -46,10 +47,10 @@ export class Search extends Component {
         this.setState({
           searchedlist: [],
           error:
-            `${err}`
+            "There was an error searching for books, please check your connection"
         });
       });
-  }
+  },100) 
 
     render() {
        
@@ -70,7 +71,6 @@ export class Search extends Component {
                         <ol className="books-grid">
                             {   this.state.searchedlist.length===0?<span style={{color:'red',fontSize:'18pt',fontWeight:'bold'}}>{ this.state.error}</span>:
                                 this.state.searchedlist.map(book => <Book key={book.id} book={book} UpdateBooks={this.state.UpdateBooks} />)
-                                
                             }
                            
                         </ol>
