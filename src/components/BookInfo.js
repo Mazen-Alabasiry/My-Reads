@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import './BookInfo.css'
+import './Bookinfo.css'
 export default function BookInfo(props) {
     const { book } = props;
    
